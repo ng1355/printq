@@ -3,6 +3,9 @@ Basic code to get flask up and running, performs templating for pages
 '''
 
 from flask import Flask, render_template, request
+import pyodbc
+
+server = '' 
 
 app = Flask(__name__) 
 
