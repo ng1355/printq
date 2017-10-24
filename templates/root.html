@@ -1,9 +1,59 @@
 <!DOCTYPE html>
-<!-- test landing page... -->
-<html>
-	<body>
-		<form method='post'>
-		<select name='floor'>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/narrow-jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <header class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">PRINT-Q</h3>
+      </header>
+
+      <main role="main">
+        <h1 class="display-4">Find the nearest printer.</h1>
+        <div id='map' class="jumbotron"></div>
+            <script>
+		      function initMap() {
+		        var uluru = {lat: 40.6942036, lng: -73.986579};
+		        var map = new google.maps.Map(document.getElementById('map'), {
+		          zoom: 16,
+		          center: uluru
+		        });
+		        var marker = new google.maps.Marker({
+		          position: uluru,
+		          map: map
+		        });
+		      }
+		    </script>
+         <form class='form-inline' method='post'>
+         <label class='mr-sm-2' for="selectingAPrinter">Select a printer</label>
+		<select class='custom-select mb-2 mr-sm-2 mb-sm-0' name='floor'>
+			<option selected>Choose...</option>
 			<option value='1'>1</option>
 			<option value='2'>2</option>
 			<option value='3'>3</option>
@@ -12,11 +62,16 @@
 			<option value='6'>6</option>
 			<option value='7'>7</option>
 		</select>
-		<button type='submit' name='submit'>Submit</button>
+		<button class='btn btn-success btn-sm' type='submit' name='submit'>Submit</button>
 		</form>
 		{% if result %}
-		<p>Closest printer is: {{result}}</p>
+		<p class="my-4 btn btn-primary">Closest printer is: <span class="badge badge-light">{{result}}</span></p>
 		{% endif %}
-	</body>
-</html>
 
+    </div> <!-- /container -->
+
+        <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
+    </script>
+  </body>
+</html>
