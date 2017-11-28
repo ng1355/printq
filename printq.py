@@ -1,39 +1,22 @@
-''' 
-Basic code to get flask up and running, performs templating for pages
-'''
+def get_server_config(config_file = '../printq_config'):
+   config = open(config_file, 'r') 
+   DRIVER = config.readline().strip()
+   SERVER =  config.readline().strip()
+   DATABASE =  config.readline().strip()
+   UID =  config.readline().strip()
+   PWD =  config.readline().strip()
+   cnxn = 'DRIVER=%s;SERVER=%s;DATABASE=%s;UID=%s;PWD=%s' % \
+           (DRIVER, SERVER, DATABASE, UID, PWD) 
+   config.close()
+   return cnxn
 
-from flask import Flask, render_template, request
-import pyodbc
-from pyodbc import connect 
+def closest_floor(cursor, floornum, limit = 1):
+    cursor.execute('select * from printer \
+            order by ABS(floornum - ?)', floornum)
+    return cursor.fetchmany(limit)  
 
-import printq_helpers
-
-#setting up database context
-cnxn_info = printq_helpers.get_server_config()
-cnxn = pyodbc.connect(cnxn_info) 
-cursor = cnxn.cursor() #used for queries 
-
-app = Flask(__name__) 
-
-'''
-Landing page. Currently just asks the users to supply their floor, 
-and tells them what's the closest floor with a printer on it by querying
-the db. 
-DB: Table Printer{ Id int, floornum int, room int, toner double, typeofink int}
-'''
-@app.route('/', methods=['GET', 'POST'])
-def root():
-    floor = None
-
-    if request.method == 'POST':
-        floor = request.form['floornum'] 
-        #calculates closest floor with a printer 
-        #TODO: gracefully handle malformed queries
-        #eg: submitting "Choose one..." as an option 
-        cursor.execute('select top 1 * from floors \
-        where printer = 1 order by ABS(floor - ?)', floor)
-        row = cursor.fetchone() 
-        floor = row.floor
-    return render_template('root.html', result = floor)
-
-app.run('localhost', 13000, debug=True)
+def closest_room(cursor, room, limit = 1):
+    
+    room = room.rstrip('AB') 
+    cursor.execute('select top 1 * from printer \
+            order by ABS(room - ?)', room) 
