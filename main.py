@@ -5,6 +5,7 @@ Basic code to get flask up and running, performs templating for pages
 from flask import Flask, render_template, request, session, redirect, url_for
 import pyodbc
 from pyodbc import connect 
+from flask_googlemaps import GoogleMaps, Map
 
 import printq
 
@@ -13,13 +14,17 @@ cnxn_info = printq.get_server_config()
 cnxn = pyodbc.connect(cnxn_info) 
 cursor = cnxn.cursor() #used for queries 
 
+
 app = Flask(__name__) 
+
+#setting up gmaps
+app.config['GOOGLEMAPS_KEY'] = printq.get_api_key()
+GoogleMaps(app) 
 
 '''
 Landing page. Currently just asks the users to supply their floor, 
 and tells them what's the closest floor with a printer on it by querying
 the db. 
-DB: Table Printer{ Id int, floornum int, room int, toner double, typeofink int}
 '''
 @app.route('/', methods=['GET', 'POST'])
 def root():
@@ -27,12 +32,16 @@ def root():
         return redirect(url_for('login'))
 
     floor = None
+    gmap = printq.gen_map()
     if request.method == 'POST':
-        floor = request.form['floornum'] 
+        try: 
+            floor = request.form['floornum'] 
+            int(floor)
+        except ValueError:
+            return render_template('root.html', result = None)
         row = printq.closest_floor(cursor, floor, 3) 
-        floor = row[0].Floornum
-        print row 
-    return render_template('root.html', result = floor)
+        floor = row[0].Room
+    return render_template('root.html', result = floor, gmap=gmap)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

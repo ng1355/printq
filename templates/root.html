@@ -12,6 +12,7 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/narrow-jumbotron.css" rel="stylesheet">
+    {{gmap.js}}
   </head>
 
   <body>
@@ -39,7 +40,10 @@
 
       <main role="main">
         <h1 class="display-4">Find the nearest printer.</h1>
-        <div id='map' class="jumbotron"></div>
+        <div id='map' class="jumbotron">
+	{{googlemap("gmap")}}
+	</div>
+	<!-- 
             <script>
 		      function initMap() {
 		        var uluru = {lat: 40.6942036, lng: -73.986579};
@@ -53,6 +57,7 @@
 		        });
 		      }
 		    </script>
+		    -->
          <form class='form-inline' method='post'>
          <label class='mr-sm-2' for="selectingAPrinter">Select a printer</label>
 		<select class='custom-select mb-2 mr-sm-2 mb-sm-0' name='floornum'>
@@ -74,8 +79,9 @@
 
     </div> <!-- /container -->
 
+    <!--
         <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
-    </script>
+	</script> -->
   </body>
 </html>
