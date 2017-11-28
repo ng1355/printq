@@ -46,26 +46,9 @@
 
       <main role="main">
         <h1 class="display-5">Find the nearest printer.</h1>
-        <div id='map' class="jumbotron">
-	{{googlemap("gmap")}}
-	</div>
-	<!-- 
-            <script>
-		      function initMap() {
-		        var uluru = {lat: 40.6942036, lng: -73.986579};
-		        var map = new google.maps.Map(document.getElementById('map'), {
-		          zoom: 16,
-		          center: uluru
-		        });
-		        var marker = new google.maps.Marker({
-		          position: uluru,
-		          map: map
-		        });
-		      }
-		    </script>
-		    -->
+		{{gmap.html}}
          <form class='form-inline' method='post'>
-         <label class='mr-sm-2' for="selectingAPrinter">Select a printer</label>
+         <label class='mr-sm-2' for="selectingAPrinter">Select a floor</label>
 		<select class='custom-select mb-2 mr-sm-2 mb-sm-0' name='floornum'>
 			<option selected>Choose...</option>
 			<option value='1'>1</option>
@@ -84,10 +67,5 @@
 		{% endif %}
 
     </div> <!-- /container -->
-
-    <!--
-        <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
-	</script> -->
   </body>
 </html>

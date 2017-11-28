@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import pyodbc
 from pyodbc import connect 
 from flask_googlemaps import GoogleMaps, Map
+from random import randint
 
 import printq
 
@@ -32,7 +33,9 @@ def root():
         return redirect(url_for('login'))
 
     floor = None
-    gmap = printq.gen_map()
+    
+    marker = printq.gen_marker(cursor, 1) 
+    gmap = printq.gen_map(marker)
     if request.method == 'POST':
         try: 
             floor = request.form['floornum'] 
@@ -41,6 +44,8 @@ def root():
             return render_template('root.html', result = None)
         row = printq.closest_floor(cursor, floor, 3) 
         floor = row[0].Room
+        marker = printq.gen_marker(cursor, row[0].Id) 
+        gmap = printq.gen_map(marker) 
     return render_template('root.html', result = floor, gmap=gmap)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -96,7 +101,7 @@ def register(error=None):
     return render_template('register.html')
 
 @app.route('/report')
-def register():
+def report():
     return render_template('report.html')
 
 @app.route('/logout', methods=['GET']) 
