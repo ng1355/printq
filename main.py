@@ -96,8 +96,12 @@ def register(error=None):
     return render_template('register.html')
 
 @app.route('/report')
-def register():
+def report():
     return render_template('report.html')
+
+@app.route('/settings')
+def register():
+    return render_template('settings.html')
 
 @app.route('/logout', methods=['GET']) 
 def logout():
