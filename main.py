@@ -2,7 +2,7 @@
 Basic code to get flask up and running, performs templating for pages
 '''
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import pyodbc
 from pyodbc import connect 
 
@@ -23,51 +23,78 @@ DB: Table Printer{ Id int, floornum int, room int, toner double, typeofink int}
 '''
 @app.route('/', methods=['GET', 'POST'])
 def root():
-    floor = None
+    if 'username' not in session:
+        return redirect(url_for('login'))
 
+    floor = None
     if request.method == 'POST':
         floor = request.form['floornum'] 
         row = printq.closest_floor(cursor, floor, 3) 
         floor = row[0].Floornum
         print row 
-    return render_template('login.html', result = floor)
+    return render_template('root.html', result = floor)
 
-@app.route('/loginAuth', methods=['GET', 'POST'])
-def loginAuth():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if 'username' in session:
+        return redirect(url_for('root')) 
+
     if request.method == 'POST': 
         # grabs information from the forms
         username = request.form['username']
         password = request.form['password']
 
-        # cursor used to send queries
-        cursor = conn.cursor()
         # executes query
-        query = 'SELECT * FROM member WHERE username=? \
-                and password=HASHBYTES(\'SHA_256\', ?)' 
+        query = 'SELECT * FROM users WHERE username=? \
+                and password=HASHBYTES(\'SHA1\',?)' 
         cursor.execute(query, username, password)
         # stores the results in a variable
         data = cursor.fetchone()
         # use fetchall() if you are expecting more than 1 data row
-        cursor.close()
         error = None
         if (data):
             # creates a session for the the user
             # session is a built in
             session['username'] = username
-            return redirect(url_for('home'))
+            return redirect(url_for('root'))
         else:
             # returns an error message to the html page
             error = 'Invalid login or username'
             return render_template('login.html', error=error)
     return render_template('login.html', error=None) 
 
-@app.route('/register')
-def register():
+@app.route('/register', methods=['GET', 'POST']) 
+def register(error=None):
+    if 'username' in session:
+        return redirect(url_for('root')) 
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        query = 'select * from users  where username = ?'
+        cursor.execute(query, username) 
+        data = cursor.fetchone() 
+        if(data is None):
+            query = 'insert into users(username, password) \
+                    values (?,HASHBYTES(\'SHA1\',?))' 
+            cursor.execute(query, username, password) 
+            cursor.commit()
+            session['username'] = username
+            return redirect(url_for('root'))
+        else:
+            error = 'Username taken' 
+            return render_template('register.html', error=error) 
     return render_template('register.html')
 
 @app.route('/report')
 def register():
     return render_template('report.html')
-  
-app.secret_key = 'bina'
+
+@app.route('/logout', methods=['GET']) 
+def logout():
+    if 'username' in session:
+        session.pop('username', None) 
+    return redirect(url_for('root')) 
+
+app.secret_key = 'bina' #do NOT share this
 app.run('localhost', 13000, debug=True)
