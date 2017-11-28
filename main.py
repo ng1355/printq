@@ -64,6 +64,10 @@ def loginAuth():
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+@app.route('/report')
+def register():
+    return render_template('report.html')
   
 app.secret_key = 'bina'
 app.run('localhost', 13000, debug=True)
