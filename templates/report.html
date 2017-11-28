@@ -1,0 +1,72 @@
+<html>
+<head>
+	<title>Print-Q: Report</title>
+	<!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="./images/favicon.ico" />
+    <script src="jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<div class='container'>
+	<div class='row ml-2'>
+		<img class="img-fluid" src="images/printer-icon-48-202093.png" style="width:48px;height:48px;margin-top: 20px;margin-right: 10px;">
+		<h1 class="display-3 font-weight-bold">Print-Q</h1>
+	</div>
+	<header class="header clearfix">
+        <nav>
+          <ul class="nav nav-tabs float-left">
+            <li class="nav-item">
+              <a class="nav-link" href="#">SEARCH <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">SEE ALL PRINTERS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/report">REPORT ISSUE</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/settings">SETTINGS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">LOGOUT</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+	<form>
+		<h1 class="display-5 text-primary mt-4">Report an issue</h1>
+		<p class='text-dark'>
+			Here at Print-Q, we take all of your reports seriously. Please send us all of your feedback!
+		</p>
+		<label for="typeOfReport" class='font-weight-bold'>Report type</label>
+	  	<select class="form-control margin-bottom">
+	  		<option>Bug in our code</option>
+	  		<option>Incorrect printer information</option>
+	  		<option>Questions about Print-Q</option>
+	  		<option>Option doesn't exist</option>
+		</select>
+		<label for="message" class='mt-2 font-weight-bold'>Message</label>
+	  	<textarea class='d-block' style="width:100%"></textarea>
+	  	<div class="form-group row mt-3">
+	    	<div class="col-sm-10">
+	      		<button id='submitButton' class="btn btn-primary">Submit</button>
+	    	</div>
+	  	</div>
+	  	<div id='submitMessage' class="alert alert-success alert-dismissible collapse" role="alert">
+		  <strong>Thank you!</strong> We'll be sure to update you on your feedback.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+	</form>
+	<a href="/"> < Home</a>
+	<script>
+		$('#submitButton').click(function() {
+		  $( "#submitMessage" ).removeClass('collapse');
+		});
+	</script>
+</body>
+
+
+</html>
+

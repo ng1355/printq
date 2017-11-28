@@ -95,11 +95,15 @@ def register(error=None):
             return render_template('register.html', error=error) 
     return render_template('register.html')
 
+@app.route('/report')
+def register():
+    return render_template('report.html')
+
 @app.route('/logout', methods=['GET']) 
 def logout():
     if 'username' in session:
         session.pop('username', None) 
     return redirect(url_for('root')) 
-  
+
 app.secret_key = 'bina' #do NOT share this
 app.run('localhost', 13000, debug=True)
