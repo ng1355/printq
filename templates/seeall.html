@@ -13,6 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/narrow-jumbotron.css" rel="stylesheet">
+    {{gmap.js}}
   </head>
 
   <body>
@@ -46,9 +47,7 @@
 
       <main role="main">
         <h1 class="display-5">See all printers</h1>
-        <div id='map' class="jumbotron">
-	{{googlemap("gmap")}}
-	</div>
+		{{gmap.html}}
 	<!-- 
             <script>
 		      function initMap() {
@@ -66,6 +65,9 @@
 		    -->
 
     </div> <!-- /container -->
+    {% for printer in printers%} 
+    <p>{{printer}}</p>
+    {% endfor %}
 
     <!--
         <script async defer

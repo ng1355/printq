@@ -100,17 +100,19 @@ def register(error=None):
             return render_template('register.html', error=error) 
     return render_template('register.html')
 
-@app.route('/report')
+@app.route('/report', methods=['GET', 'POST'])
 def report():
     return render_template('report.html')
 
-@app.route('/settings')
-def register():
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
     return render_template('settings.html')
 
-@app.route('/seeall')
-def register():
-    return render_template('seeall.html')
+@app.route('/seeall', methods=['GET', 'POST'])
+def seeall():
+    gmap = printq.gen_map()
+    printers = printq.closest_floor(cursor, 1, limit = 6)
+    return render_template('seeall.html', gmap=gmap, printers = printers)
 
 @app.route('/logout', methods=['GET']) 
 def logout():
