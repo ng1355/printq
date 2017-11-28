@@ -13,7 +13,6 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/narrow-jumbotron.css" rel="stylesheet">
-    {{gmap.js}}
   </head>
 
   <body>
@@ -27,10 +26,10 @@
         <nav>
           <ul class="nav nav-tabs float-left">
             <li class="nav-item">
-              <a class="nav-link active" href="/">SEARCH <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">SEARCH <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/seeall">SEE ALL PRINTERS</a>
+              <a class="nav-link active" href="/seeall">SEE ALL PRINTERS</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/report">REPORT ISSUE</a>
@@ -46,27 +45,31 @@
       </header>
 
       <main role="main">
-        <h1 class="display-5">Find the nearest printer.</h1>
-		{{gmap.html}}
-         <form class='form-inline' method='post'>
-         <label class='mr-sm-2' for="selectingAPrinter">Select a floor</label>
-		<select class='custom-select mb-2 mr-sm-2 mb-sm-0' name='floornum'>
-			<option selected>Choose...</option>
-			<option value='1'>1</option>
-			<option value='2'>2</option>
-			<option value='3'>3</option>
-			<option value='4'>4</option>
-			<option value='5'>5</option>
-			<option value='6'>6</option>
-			<option value='7'>7</option>
-			<option value='8'>8</option>
-		</select>
-		<button class='btn btn-success btn-sm' type='submit' name='submit'>Submit</button>
-		</form>
-		{% if result %}
-		<p class="my-4 btn btn-primary">Closest printer is: <span class="badge badge-light">{{result}}</span></p>
-		{% endif %}
+        <h1 class="display-5">See all printers</h1>
+        <div id='map' class="jumbotron">
+	{{googlemap("gmap")}}
+	</div>
+	<!-- 
+            <script>
+		      function initMap() {
+		        var uluru = {lat: 40.6942036, lng: -73.986579};
+		        var map = new google.maps.Map(document.getElementById('map'), {
+		          zoom: 16,
+		          center: uluru
+		        });
+		        var marker = new google.maps.Marker({
+		          position: uluru,
+		          map: map
+		        });
+		      }
+		    </script>
+		    -->
 
     </div> <!-- /container -->
+
+    <!--
+        <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
+	</script> -->
   </body>
 </html>

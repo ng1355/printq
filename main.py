@@ -104,6 +104,14 @@ def register(error=None):
 def report():
     return render_template('report.html')
 
+@app.route('/settings')
+def register():
+    return render_template('settings.html')
+
+@app.route('/seeall')
+def register():
+    return render_template('seeall.html')
+
 @app.route('/logout', methods=['GET']) 
 def logout():
     if 'username' in session:
