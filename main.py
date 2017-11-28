@@ -27,15 +27,10 @@ def root():
 
     if request.method == 'POST':
         floor = request.form['floornum'] 
-        '''
-        cursor.execute('select top 1 * from floors \
-        where printer = 1 order by ABS(floor - ?)', floor)
-        row = cursor.fetchone() 
-        floor = row.floor
-        '''
         row = printq.closest_floor(cursor, floor, 3) 
         floor = row[0].Floornum
         print row 
     return render_template('root.html', result = floor)
 
+app.secret_key = 'bina'
 app.run('localhost', 13000, debug=True)

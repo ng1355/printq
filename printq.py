@@ -14,9 +14,3 @@ def closest_floor(cursor, floornum, limit = 1):
     cursor.execute('select * from printer \
             order by ABS(floornum - ?)', floornum)
     return cursor.fetchmany(limit)  
-
-def closest_room(cursor, room, limit = 1):
-    
-    room = room.rstrip('AB') 
-    cursor.execute('select top 1 * from printer \
-            order by ABS(room - ?)', room) 
